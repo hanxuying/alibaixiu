@@ -7,4 +7,5 @@ $('#modifyForm').on('submit',function(){
             location.href='login.html';
         }
     })
+    return false;
 })

@@ -19,27 +19,58 @@ $('#addCategory').on('submit', function () {
 });
 //编辑功能 修改用户
 $('#categoryBox').on('click', '.edit', function () {
-    var id = $(this).attr('data-id'); 
+    var id = $(this).attr('data-id');
     $.ajax({
         type: 'get',
         url: '/categories/' + id,
-        success:function (res){
+        success: function (res) {
             console.log(res);
-         var html = template('modifyCategoryTpl',res)
-         $('#modifyBox').html(html)
+            var html = template('modifyCategoryTpl', res)
+            $('#modifyBox').html(html)
         }
     })
 });
-$('#modifyBox').on('submit','#modifyCategory',function() {
-    var id =$(this).attr('data-id');
+$('#modifyBox').on('submit', '#modifyCategory', function () {
+    var id = $(this).attr('data-id');
     $.ajax({
-        type:'put',
-        url:'/categories/'+id,
-        data:$(this).serialize(),
-        success:function(){
+        type: 'put',
+        url: '/categories/' + id,
+        data: $(this).serialize(),
+        success: function () {
             location.reload();
 
         }
     })
     return false;
 })
+//删除
+$('#categoryBox').on('click', '.xyz', function () {
+    if (confirm('确定删除吗？')) {
+        var id = $(this).attr('data-id');
+        $.ajax({
+            type: 'delete',
+            url: '/categories/' + id,
+            success: function () {
+                location.reload();
+            }
+        })
+    }
+});
+//全选按钮
+$('#hxy').on('change', function () {
+    var bool = $(this).prop('checked');
+    var checkList = $('#categoryBox input[type="checkbox"]');
+    checkList.prop('checked', bool);
+});
+//按钮
+$('#categoryBox').on('change', 'input[type="checkbox"]', function () {
+    if ($('#categoryBox input[type="checkbox"]').length == $('#categoryBox input[type="checkbox"]:checked').length) {
+        $('#hxy').prop('checked', true)
+    } else {
+        $('#hxy').prop('checked', false)
+
+    }
+
+
+})
+
