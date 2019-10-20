@@ -14,3 +14,15 @@ $('#logo').on('change',function(){
         }
     })
 })
+$('#settingsForm').on('submit',function(){
+    var fd= $(this).serialize();
+    $.ajax({
+        type:'get',
+        url:'/settings',
+        data:fd,
+        success:function(){
+            location.reload()
+        }
+    })
+    return false;
+})
